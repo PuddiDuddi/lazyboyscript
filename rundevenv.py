@@ -21,14 +21,13 @@ class Command:
     @classmethod
     def is_process_running(cls, command):
         splitcommand = re.split(r'[\\ "]', command)
-        print(splitcommand)
         for proc in psutil.process_iter(['pid', 'name']):
             if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1:
                 return True
         return False
 
     wsl = "wt.exe wsl -d Ubuntu"
-    pycharm = r'"C:\Program Files\JetBrains\PyCharm Community Edition 2022.3.3\bin\pycharm64.exe"'
+    pycharm = r"C:\Program Files\JetBrains\PyCharm Community Edition 2022.3.3\bin\pycharm64.exe"
 
 
 class Browser:
