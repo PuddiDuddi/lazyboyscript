@@ -8,26 +8,26 @@ import psutil
 from pyvda import VirtualDesktop
 import pyautogui
 
-"""Command class for running commands"""
-
 
 class Command:
     """running commands"""
+
     @classmethod
     def run(cls, command):
+        '''Takes in a class command to run it'''
         if cls.is_process_running(command):
             print(f"{command} already running passing...")
             return  # process already running, do nothing
         if command == Command.pycharm:
-            subprocess.Popen(command, check=False)
+            subprocess.Popen(command)
             sleep(5)
         else:
             subprocess.run(command, check=False)
             sleep(5)
 
-    """process already running check"""
     @classmethod
     def is_process_running(cls, command):
+        '''checks if the process is already running'''
         wslexes = ['wslservice.exe', 'wslrelay.exe', 'wslhost.exe']
         splitcommand = re.split(r'[\\ "]', command)
         for proc in psutil.process_iter(['pid', 'name']):
@@ -44,9 +44,10 @@ class Command:
 
 
 class Browser:
-
+    '''Class for browser opening as chromium browser behave differently to other windows binaries'''
     @classmethod
     def open(cls, url1, url2):
+        '''opens url in default browser, takes in 2 urls'''
         if len(pyautogui.getWindowsWithTitle("brave")) == 1:
             subprocess.run(r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"'
                            + ' ' + url1 + ' --new-window', check=False)
