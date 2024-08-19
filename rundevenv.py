@@ -46,7 +46,7 @@ class Browser:
 
 try:
     if VirtualDesktop.current().number == 1:
-        #VirtualDesktop(2).go()
+        VirtualDesktop(2).go()
         sleep(1)
         Command.run(Command.pycharm)
         Command.run(Command.wsl)
