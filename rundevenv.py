@@ -13,18 +13,25 @@ class Command:
     def run(cls, command):
         if cls.is_process_running(command):
             print(f"{command} already running passing...")
-            pass  # process already running, do nothing
+            return  # process already running, do nothing
+        if command == Command.pycharm:
+            subprocess.Popen(command)
+            sleep(5)
         else:
-            subprocess.run(command, shell=True)
-            sleep(10)
+            subprocess.run(command)
+            sleep(5)
 
     @classmethod
     def is_process_running(cls, command):
         splitcommand = re.split(r'[\\ "]', command)
         for proc in psutil.process_iter(['pid', 'name']):
-            if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1:
+            # some system processes will not have a name
+            if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1\
+                    and proc.info['name'] != 'wslservice.exe':
+                print(proc.info['name'])
                 return True
         return False
+
 
     wsl = "wt.exe wsl -d Ubuntu"
     pycharm = r"C:\Program Files\JetBrains\PyCharm Community Edition 2022.3.3\bin\pycharm64.exe"
@@ -45,10 +52,14 @@ class Browser:
 
 try:
     if VirtualDesktop.current().number == 1:
+        print('Switching Vdesktop')
         VirtualDesktop(2).go()
         sleep(1)
+        print('Launching Pycharm')
         Command.run(Command.pycharm)
+        print('Launching wsl')
         Command.run(Command.wsl)
+        print('Launching jupyter and portainer')
         Browser.open("https://portainer.local:9443","http://127.0.0.1:666/lab")
 except Exception as e:
     print(e)
