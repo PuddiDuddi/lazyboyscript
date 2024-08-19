@@ -22,4 +22,4 @@ jobs:
     - name: Analysing the code with ruff and pyright
       run: |
         ruff check $(git ls-files '*.py')
-        pyright check $(git ls-files '*.py')
+        pyright $(git ls-files '*.py')
