@@ -1,10 +1,10 @@
+import re
+from time import sleep
 import subprocess
 import webbrowser
 import psutil
 from pyvda import VirtualDesktop
-from time import sleep
 import pyautogui
-import re
 
 
 class Command:
@@ -27,8 +27,9 @@ class Command:
         splitcommand = re.split(r'[\\ "]', command)
         for proc in psutil.process_iter(['pid', 'name']):
             # some system processes will not have a name
-            if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1\
-                    and proc.info['name'] not in wslexes:
+            if (any(part in proc.info['name'] for part in splitcommand) and
+                    len(proc.info['name']) > 1\
+                    and proc.info['name'] not in wslexes):
                 print(proc.info['name'])
                 return True
         return False
@@ -43,8 +44,8 @@ class Browser:
     @classmethod
     def open(cls, url1, url2):
         if len(pyautogui.getWindowsWithTitle("brave")) == 1:
-            subprocess.run(r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"' + ' ' + url1 +
-                           ' --new-window', shell=True)
+            subprocess.run(r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"'
+                           + ' ' + url1 + ' --new-window', shell=True)
             webbrowser.open(url2)
         else:
             print('Multiple brave.exe processes found passing...')
