@@ -42,6 +42,7 @@ class Browser:
 
 
 try:
+    psutil.process_iter.clear_cache()
     if VirtualDesktop.current().number == 1:
         VirtualDesktop(2).go()
         sleep(1)
