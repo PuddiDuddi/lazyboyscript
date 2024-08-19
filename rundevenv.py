@@ -23,11 +23,12 @@ class Command:
 
     @classmethod
     def is_process_running(cls, command):
+        wslexes = ['wslservice.exe', 'wslrelay.exe', 'wslhost.exe']
         splitcommand = re.split(r'[\\ "]', command)
         for proc in psutil.process_iter(['pid', 'name']):
             # some system processes will not have a name
             if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1\
-                    and proc.info['name'] != 'wslservice.exe':
+                    and proc.info['name'] not in wslexes:
                 print(proc.info['name'])
                 return True
         return False
