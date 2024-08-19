@@ -1,3 +1,5 @@
+"""lazyboy pydev launching script"""
+
 import re
 from time import sleep
 import subprocess
@@ -6,21 +8,24 @@ import psutil
 from pyvda import VirtualDesktop
 import pyautogui
 
+"""Command class for running commands"""
+
 
 class Command:
-
+    """running commands"""
     @classmethod
     def run(cls, command):
         if cls.is_process_running(command):
             print(f"{command} already running passing...")
             return  # process already running, do nothing
         if command == Command.pycharm:
-            subprocess.Popen(command)
+            subprocess.Popen(command, check=False)
             sleep(5)
         else:
-            subprocess.run(command)
+            subprocess.run(command, check=False)
             sleep(5)
 
+    """process already running check"""
     @classmethod
     def is_process_running(cls, command):
         wslexes = ['wslservice.exe', 'wslrelay.exe', 'wslhost.exe']
@@ -28,12 +33,11 @@ class Command:
         for proc in psutil.process_iter(['pid', 'name']):
             # some system processes will not have a name
             if (any(part in proc.info['name'] for part in splitcommand) and
-                    len(proc.info['name']) > 1\
+                    len(proc.info['name']) > 1
                     and proc.info['name'] not in wslexes):
                 print(proc.info['name'])
                 return True
         return False
-
 
     wsl = "wt.exe wsl -d Ubuntu"
     pycharm = r"C:\Program Files\JetBrains\PyCharm Community Edition 2022.3.3\bin\pycharm64.exe"
@@ -45,7 +49,7 @@ class Browser:
     def open(cls, url1, url2):
         if len(pyautogui.getWindowsWithTitle("brave")) == 1:
             subprocess.run(r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"'
-                           + ' ' + url1 + ' --new-window', shell=True)
+                           + ' ' + url1 + ' --new-window', check=False)
             webbrowser.open(url2)
         else:
             print('Multiple brave.exe processes found passing...')
@@ -62,6 +66,6 @@ try:
         print('Launching wsl')
         Command.run(Command.wsl)
         print('Launching jupyter and portainer')
-        Browser.open("https://portainer.local:9443","http://127.0.0.1:666/lab")
+        Browser.open("https://portainer.local:9443", "http://127.0.0.1:666/lab")
 except Exception as e:
     print(e)
