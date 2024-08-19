@@ -13,7 +13,7 @@ class Command:
     """running commands"""
 
     @classmethod
-    def run(cls, command) -> None:
+    def run(cls: type, command: str) -> None:
         """Takes in a class command to run it"""
         if cls.is_process_running(command):
             print(f"{command} already running passing...")
@@ -26,7 +26,7 @@ class Command:
             sleep(5)
 
     @classmethod
-    def is_process_running(cls, command) -> bool:
+    def is_process_running(cls: type, command: str) -> bool:
         """checks if the process is already running"""
         wslexes = ["wslservice.exe", "wslrelay.exe", "wslhost.exe"]
         splitcommand = re.split(r'[\\ "]', command)
@@ -49,7 +49,7 @@ class Browser:
     """Class for browser opening as chromium browser behave differently to other windows binaries"""
 
     @classmethod
-    def open(cls, url1, url2) -> None:
+    def open(cls: type, url1: str, url2: str) -> None:
         """opens url in default browser, takes in 2 urls"""
         if len(pyautogui.getWindowsWithTitle("brave")) == 1:  # pyright: ignore [reportAttributeAccessIssue]
             subprocess.run(
