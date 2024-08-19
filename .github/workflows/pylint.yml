@@ -17,12 +17,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel
-        pip install ruff
-        pip install pypiwin32
-        pip install -v pyvda==0.4.3
-        pip install pyautogui
-        pip install psutil
-    - name: Analysing the code with pylint
+        pip install -r requirements.txt
+
+    - name: Analysing the code with ruff and pyright
       run: |
         ruff check $(git ls-files '*.py')
+        pyright check $(git ls-files '*.py')
