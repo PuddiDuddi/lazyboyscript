@@ -4,6 +4,7 @@ import psutil
 from pyvda import VirtualDesktop
 from time import sleep
 import pyautogui
+import re
 
 
 class Command:
@@ -19,8 +20,10 @@ class Command:
 
     @classmethod
     def is_process_running(cls, command):
+        splitcommand = re.split(r'[\\ "]', command)
+        print(splitcommand)
         for proc in psutil.process_iter(['pid', 'name']):
-            if str(proc.info['name']) in str(command):
+            if any(part in proc.info['name'] for part in splitcommand) and len(proc.info['name']) > 1:
                 return True
         return False
 
@@ -42,13 +45,11 @@ class Browser:
 
 
 try:
-    psutil.process_iter.clear_cache()
     if VirtualDesktop.current().number == 1:
-        VirtualDesktop(2).go()
+        #VirtualDesktop(2).go()
         sleep(1)
         Command.run(Command.pycharm)
         Command.run(Command.wsl)
         Browser.open("https://portainer.local:9443","http://127.0.0.1:666/lab")
 except Exception as e:
     print(e)
-
