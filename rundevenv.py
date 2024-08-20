@@ -2,7 +2,7 @@
 
 import re
 from time import sleep
-import subprocess
+import subprocess # nosec B404
 import webbrowser
 import psutil
 from pyvda import VirtualDesktop
@@ -19,10 +19,10 @@ class Command:
             print(f"{command} already running passing...")
             return  # process already running, do nothing
         if command == Command.pycharm:
-            subprocess.Popen(command)
+            subprocess.Popen(command) # nosec B603
             sleep(5)
         else:
-            subprocess.run(command, check=False)
+            subprocess.run(command, check=False) # nosec B603
             sleep(5)
 
     @classmethod
@@ -52,7 +52,7 @@ class Browser:
     def open(cls: type, url1: str, url2: str) -> None:
         """opens url in default browser, takes in 2 urls"""
         if len(pyautogui.getWindowsWithTitle("brave")) == 1:  # pyright: ignore [reportAttributeAccessIssue]
-            subprocess.run(
+            subprocess.run(  # nosec B603
                 r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"'
                 + " "
                 + url1
