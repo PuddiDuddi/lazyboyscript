@@ -1,0 +1,1 @@
+# Random script repo to play with github actions, mighty githubman lints and scans code with bandit
