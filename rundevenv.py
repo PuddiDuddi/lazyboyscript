@@ -2,7 +2,7 @@
 
 import re
 from time import sleep
-import subprocess # nosec B404
+import subprocess  # nosec B404
 import webbrowser
 import psutil
 from pyvda import VirtualDesktop
@@ -19,10 +19,10 @@ class Command:
             print(f"{command} already running passing...")
             return  # process already running, do nothing
         if command == Command.pycharm:
-            subprocess.Popen(command) # nosec B603
+            subprocess.Popen(command)  # nosec B603
             sleep(5)
         else:
-            subprocess.run(command, check=False) # nosec B603
+            subprocess.run(command, check=False)  # nosec B603
             sleep(5)
 
     @classmethod
@@ -33,9 +33,9 @@ class Command:
         for proc in psutil.process_iter(["pid", "name"]):
             # some system processes will not have a name
             if (
-                any(part in proc.info["name"] for part in splitcommand)
-                and len(proc.info["name"]) > 1
-                and proc.info["name"] not in wslexes
+                    any(part in proc.info["name"] for part in splitcommand)
+                    and len(proc.info["name"]) > 1
+                    and proc.info["name"] not in wslexes
             ):
                 print(proc.info["name"])
                 return True
@@ -78,3 +78,4 @@ try:
         Browser.open("https://portainer.local:9443", "http://127.0.0.1:666/lab")
 except Exception as e:
     print(e)
+    
