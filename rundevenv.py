@@ -51,7 +51,7 @@ class Browser:
     @classmethod
     def open(cls: type, url1: str, url2: str) -> None:
         """opens url in default browser, takes in 2 urls"""
-        if len(pyautogui.getWindowsWithTitle("brave")) < 1:  # pyright: ignore [reportAttributeAccessIssue]
+        if len(pyautogui.getWindowsWithTitle("brave")) < 2:  # pyright: ignore [reportAttributeAccessIssue]
             subprocess.run(  # nosec B603
                 r'"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"'
                 + " "
